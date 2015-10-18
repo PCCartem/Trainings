@@ -11,15 +11,29 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	/*
 	Главный метод который инкапсулирует реализацию всех остальных методов.
 	*/
-	public function doIt()
+	public function doIt($str)
 	{
-		return;
+	    $this->str = $str;
+	    /*
+	    Проверяет строку на полиндром, 
+	    если она является полиндромом, возвращает её
+	    */
+	    if ($this->checkOfPolindrom($this->str) === TRUE) {
+	        return $this->str;
+	    }
+	    /*
+	    Создаем структуру, анализируем её, 
+	    возвращаем самый большой подполиндром
+	    */
+	    $this->structre = $this->createStructureStr($this->str);
+	    $this->str = $this->analis($this->structre);
+		return $this->str;
 	}
 
 	/*
 	Выполняет анализ строки на подполиндромы
 	*/
-	public function analis()
+	protected function analis()
 	{
 		# code...
 	}
@@ -27,9 +41,12 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	/*
 	Проверяет строку на то является ли она полиндромом
 	*/
-	public function checkOfPolindrom()
+	protected function checkOfPolindrom($string)
 	{
-		# code...
+		if ($string === $this->mbStrrev($string)) {
+		    return TRUE;
+		}
+		return FALSE;
 	}
 
 	/*
@@ -38,7 +55,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	является ли конкретный символ заглавным(верхний регистр),
 	также указывается является ли символ пробелом.
 	*/
-	public function createStructureStr()
+	protected function createStructureStr()
 	{
 		# code...
 	}
@@ -47,7 +64,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	Восстанавливает сроку в исходный вид, расставляет пробелы, 
 	переводит символы в нужный регистр.
 	*/
-	public function restoreStr()
+	protected function restoreStr()
 	{
 		# code...
 	}
@@ -55,8 +72,17 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	/*
 	Переводит строку в формат необходимый для работы, выполняется послесоставления структуры.
 	*/
-	public function convertStr()
+	protected function convertStr()
 	{
 		# code...
+	}
+	
+	protected function mbStrrev($string)
+	{
+	    $mb_strrev = '';
+        for($i = mb_strlen($string, "UTF-8"); $i >= 0; $i--){
+        $mb_strrev .= mb_substr($string, $i, 1, "UTF-8");
+        }
+        return $mb_strrev;
 	}
 }
