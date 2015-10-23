@@ -1,8 +1,12 @@
 <?php 
-require_once("autoloader.php");
+require_once("vendor/autoload.php");
 use App\Blog;
+Twig_Autoloader::register();
+$loader = new Twig_Loader_Filesystem('tpl');
+			$twig = new Twig_Environment($loader);
+			echo $twig->render('index.html.twig', array());
 ?>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -16,7 +20,8 @@ use App\Blog;
 	<h1>Posts</h1>
 		<main>
 			<?php 
-				$blog = Blog::getInstanse();
+			
+				/*$blog = Blog::getInstanse();
 				$posts = $blog->viewBlog($_GET['category']);
 
 				if ($posts) {
@@ -29,11 +34,11 @@ use App\Blog;
 					</article>';
 					}
 				}
-				
+				*/
 
 			 ?>	
 		</main>
 </body>
-</html>
+</html> -->
 
 
