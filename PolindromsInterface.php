@@ -7,7 +7,7 @@ interface PolindromsInterface
 	/*
 	Главный метод который инкапсулирует реализацию всех остальных методов.
 	*/
-	public function doIt();
+	public function doIt($string);
 	
 
 	

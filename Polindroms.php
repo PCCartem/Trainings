@@ -7,7 +7,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 
 	public $str;
 	public $structre;
-	public $polinroms;
+	public $polindrom;
 	/*
 	Главный метод который инкапсулирует реализацию всех остальных методов.
 	*/
@@ -25,17 +25,59 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	    Создаем структуру, анализируем её, 
 	    возвращаем самый большой подполиндром
 	    */
-	    $this->structre = $this->createStructureStr($this->str);
-	    $this->str = $this->analis($this->structre);
-		return $this->str;
+	    $this->createStructureStr($this->str);
+	    $workStruct = $this->convertStr();
+	    $this->analis($workStruct);
+		/*
+	    Если после анализа массив пустой то возвращаем 1 символ строки.
+	    */
+	    if (empty($this->polindrom)) {
+	    	$this->polindrom = substr($this->str, 0, 1);
+	    }
+		return $this->polindrom;
 	}
 
 	/*
 	Выполняет анализ строки на подполиндромы
 	*/
-	protected function analis()
+	public function analis($workStruct)
 	{
-		# code...
+		$podpolindroms = [];
+		$strings = [];
+		unset($workStruct['result']);
+		$gCount = count($workStruct);
+		
+		
+		for ($i=$gCount; $i >= 0; $i--) { 
+			$c = $gCount - $i;
+			$workArr = $workStruct;
+			for ($j= $c; $j <= $gCount ; $j++) { 
+				$str = "";
+				while (mb_strlen($str) < $c) {
+					$char = array_values($workArr)[mb_strlen($str)]['char'];
+					
+					$str .= $char;
+					
+				}
+				if (mb_strlen($str)>1) {
+					$strings[] = $str;
+
+				}
+				
+				array_shift($workArr);
+			}
+		}
+		
+		foreach ($strings as $str) {
+			if ($this->checkOfPolindrom($str) === TRUE) {
+				$polindroms[] = $str;
+			}
+		}
+		
+		if ($polindroms) {
+			$this->polindrom = array_pop($polindroms);
+		}
+		
 	}
 
 	/*
@@ -55,9 +97,40 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	является ли конкретный символ заглавным(верхний регистр),
 	также указывается является ли символ пробелом.
 	*/
-	protected function createStructureStr()
+	public function createStructureStr($string)
 	{
-		# code...
+		$len = mb_strlen($string);
+		for($i = 0; $i < $len; $i++){
+        $this->structre[$i]['char'] = mb_substr($string ,$i,1);
+        if (mb_convert_case($this->structre[$i]['char'], MB_CASE_LOWER, "UTF-8")===$this->structre[$i]['char']) {
+        	$this->structre[$i]['registr'] = 'b';
+        } else {
+        	// TODO convert func
+        	//$this->structre[$i]['char'] = mb_strtoupper($this->structre[$i]['char'])
+        	$this->structre[$i]['registr'] = 't';
+        }
+        if ($this->structre[$i]['char'] === ' ') 
+        	{
+        		$this->structre[$i]['type'] = 'space';
+        	} 
+        	elseif (empty(preg_replace ("/^[^a-zA-ZА-Яа-я0-9 \s]*$/","",$this->structre[$i]['char']))) 
+        		{
+        			$this->structre[$i]['type'] = 'other-char';
+        		}
+        		elseif (preg_replace ("/^[^a-zA-ZА-Яа-я0-9 \s]*$/","",$this->structre[$i]['char']))
+        			{
+        				$this->structre[$i]['type'] = 'char';
+        			}
+
+       // TODO make function filtr for this
+        /*if (empty(preg_replace ("/^[^a-zA-ZА-Яа-я0-9 \s]*$/","",$this->structre[$i]['char']))) {
+        	unset($this->structre[$i]);
+        }*/
+        
+        
+        }
+
+        return $this->structre;
 	}
 
 	/*
@@ -72,9 +145,25 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	/*
 	Переводит строку в формат необходимый для работы, выполняется послесоставления структуры.
 	*/
-	protected function convertStr()
+	public function convertStr()
 	{
-		# code...
+		$workStructre = $this->structre;
+
+		$len = count($workStructre);
+		$workStructre['result'] = "";
+		for($i = 0; $i < $len; $i++) {
+        if ($workStructre[$i]['registr'] === 't') {
+
+        	$workStructre[$i]['char'] = mb_strtolower($workStructre[$i]['char']);
+        }
+        if (($workStructre[$i]['type'] === 'space') OR ($workStructre[$i]['type'] === 'other-char')) 
+        	{
+        		unset($workStructre[$i]);
+        	}
+        $workStructre['result'] .= $workStructre[$i]['char'];
+        }
+        
+        return $workStructre;
 	}
 	
 	protected function mbStrrev($string)
@@ -86,3 +175,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
         return $mb_strrev;
 	}
 }
+
+
+
+

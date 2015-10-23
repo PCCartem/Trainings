@@ -7,12 +7,12 @@ abstract class PolindromsAbstract
 	/*
 	Выполняет анализ строки на подполиндромы
 	*/
-	abstract public function analis();
+	abstract protected function analis($workStruct);
 
 	/*
 	Проверяет строку на то является ли она полиндромом
 	*/
-	abstract public function checkOfPolindrom();
+	abstract protected function checkOfPolindrom($string);
 
 	/*
 	Создает уструктуру строки
@@ -20,16 +20,16 @@ abstract class PolindromsAbstract
 	является ли конкретный символ заглавным(верхний регистр),
 	также указывается является ли символ пробелом.
 	*/
-	abstract public function createStructureStr();
+	abstract protected function createStructureStr($string);
 
 	/*
 	Восстанавливает сроку в исходный вид, расставляет пробелы, 
 	переводит символы в нужный регистр.
 	*/
-	abstract public function restoreStr();
+	abstract protected function restoreStr();
 
 	/*
 	Переводит строку в формат необходимый для работы, выполняется послесоставления структуры.
 	*/
-	abstract public function convertStr();
+	abstract protected function convertStr();
 }
