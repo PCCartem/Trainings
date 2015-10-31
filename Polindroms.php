@@ -44,6 +44,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	{
 		$podpolindroms = [];
 		$strings = [];
+		$arrStruct =[];
 		unset($workStruct['result']);
 		$gCount = count($workStruct);
 		
@@ -55,8 +56,10 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 				$str = "";
 				while (mb_strlen($str) < $c) {
 					$char = array_values($workArr)[mb_strlen($str)]['char'];
-					
+					$struct = array_values($workArr)[mb_strlen($str)]['num'];
+					$arrStruct[] = $struct;
 					$str .= $char;
+					 
 					
 				}
 				if (mb_strlen($str)>1) {
@@ -121,7 +124,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
         			{
         				$this->structre[$i]['type'] = 'char';
         			}
-
+        $this->structre[$i]['num'] = $i;
        // TODO make function filtr for this
         /*if (empty(preg_replace ("/^[^a-zA-ZА-Яа-я0-9 \s]*$/","",$this->structre[$i]['char']))) {
         	unset($this->structre[$i]);
