@@ -26,7 +26,7 @@ abstract class PolindromsAbstract
 	Восстанавливает сроку в исходный вид, расставляет пробелы, 
 	переводит символы в нужный регистр.
 	*/
-	abstract protected function restoreStr();
+	abstract protected function restoreStr($arrStruct);
 
 	/*
 	Переводит строку в формат необходимый для работы, выполняется послесоставления структуры.

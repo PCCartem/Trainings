@@ -27,14 +27,16 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	    */
 	    $this->createStructureStr($this->str);
 	    $workStruct = $this->convertStr();
-	    $this->analis($workStruct);
+	    $startStr = $this->restoreStr($this->analis($workStruct));
 		/*
 	    Если после анализа массив пустой то возвращаем 1 символ строки.
 	    */
 	    if (empty($this->polindrom)) {
 	    	$this->polindrom = substr($this->str, 0, 1);
 	    }
-		return $this->polindrom;
+	    $result['startStr'] = $startStr;
+	    //$result['polindrom'] = $this->polindrom;
+		return $result;
 	}
 
 	/*
@@ -57,7 +59,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 				while (mb_strlen($str) < $c) {
 					$char = array_values($workArr)[mb_strlen($str)]['char'];
 					$struct = array_values($workArr)[mb_strlen($str)]['num'];
-					$arrStruct[] = $struct;
+					$arrStruct[$c][] = $struct;
 					$str .= $char;
 					 
 					
@@ -80,6 +82,7 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 		if ($polindroms) {
 			$this->polindrom = array_pop($polindroms);
 		}
+		return array_pop($arrStruct);
 		
 	}
 
@@ -140,9 +143,17 @@ class Polindroms extends PolindromsAbstract implements PolindromsInterface
 	Восстанавливает сроку в исходный вид, расставляет пробелы, 
 	переводит символы в нужный регистр.
 	*/
-	protected function restoreStr()
+	protected function restoreStr($arrStruct)
 	{
-		# code...
+		$start = array_shift($arrStruct);
+		$finish = array_pop($arrStruct);
+		$len = count($this->structre);
+		$str = '';
+		for ($i=0; $i < $len; $i++) { 
+			$str .= $this->structre[$i]['char'];
+		}
+		$startStr = mb_substr($str, $start, $finish);
+		return $startStr;
 	}
 
 	/*
