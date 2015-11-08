@@ -1,11 +1,15 @@
 <?php 
 require_once("vendor/autoload.php");
-use App\Blog;
-Twig_Autoloader::register();
-$loader = new Twig_Loader_Filesystem('tpl');
-			$twig = new Twig_Environment($loader);
-			echo $twig->render('index.html.twig', array());
+use App\Site;
+	$config = require(__DIR__ . '/config/web.php');
+	$app = Site::getInstance($config);
+
+
+	
 ?>
+
+
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
