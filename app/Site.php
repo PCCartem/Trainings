@@ -2,8 +2,9 @@
 
 namespace App;
 
-use App\Base;
-use App\SimpleUsers;
+use Twig_Autoloader;
+use Twig_Loader_Filesystem;
+use Twig_Environment;
 
 class Site
 {
@@ -12,6 +13,8 @@ class Site
 	protected $DB;
 	protected $config = NULL;
 	protected $user = NULL;
+	protected $requestParams = [];
+	protected $admin = NULL;
 
 	protected function __construct($config){
 		$this->config = $config;
@@ -34,11 +37,13 @@ class Site
 
 	protected function route($access)
 	{
-	$uri = explode('/', $_GET['uri']);
-	if (in_array($uri[0], $access, 1)) {
-		$action = 'action'.ucfirst($uri[0]);
+	
+	$this->requestParams = explode('/', $_GET['uri']);
+	$uri = array_shift($this->requestParams);
+	if (in_array($uri, $access, 1)) {
+		$action = 'action'.ucfirst($uri);
 		echo $this->$action();
-	} elseif ($uri[0] == '') {
+	} elseif ($uri == '') {
 		echo $this->actionIndex();
 	} else {
 		echo $this->actionNotFound();
@@ -47,10 +52,9 @@ class Site
 
 	protected function render($tpl, $params = [])
 	{
-		\Twig_Autoloader::register();
-		$loader = new \Twig_Loader_Filesystem('tpl');
-		$twig = new \Twig_Environment($loader);
-
+		Twig_Autoloader::register();
+		$loader = new Twig_Loader_Filesystem('tpl');
+		$twig = new Twig_Environment($loader);
 		return $twig->render($tpl.".html.twig", $params);
 	}
 
@@ -61,12 +65,39 @@ class Site
 
 	public function actionWorks()
 	{
-		return $this->render('works');
+		$catWorks = $this->DB->getAll('works_category');
+		$works = $this->DB->getAll('works');
+		return $this->render('works', ['catWorks' => $catWorks, 'works' => $works]);
+	}
+
+	public function actionWork()
+	{
+		$workId = array_shift($this->requestParams);
+		$work = $this->DB->getOne($workId, 'works');
+		if (!empty($work)) {
+			return $this->render('work1', ['work' => $work]);
+		}
+		return $this->render('404');
 	}
 
 	public function actionBlog()
 	{
-		return $this->render('blog');
+		$posts = $this->DB->getAll('posts');
+		$postsCat = $this->DB->getAll('posts_category');
+		return $this->render('blog', ['posts' => $posts, 'postsCat' => $postsCat]);
+	}
+
+	public function actionPost()
+	{
+		$workId = array_shift($this->requestParams);
+		$post = $this->DB->getOne($workId, 'posts');
+		$posts = $this->DB->getAll('posts');
+		$postsCat = $this->DB->getAll('posts_category');
+		if (!empty($post)) {
+			return $this->render('blogpost', ['post' => $post, 'posts' => $posts, 'postsCat' => $postsCat]);
+		}
+		return $this->render('404');
+		
 	}
 
 	public function actionAbout()
@@ -86,14 +117,17 @@ class Site
 
 	public function actionAdmin()
 	{
-		// Оптимизировать
+		// TODO Оптимизировать
 		if ($_POST["logout"] === 'logout') {
 			$this->logout();
 			return $this->render('login');
 		}
 		if ($this->user->logged_in) {
-			return $this->render('admin');
+			$this->admin = new Admin($this->user);
+			$tpl = $this->admin->getTpl($this->requestParams);
+			return $this->render('admin/'.$tpl);
 		}
+
 		if(!empty($_POST["username"]) )
 		{
 			$res = $this->login();
@@ -109,6 +143,12 @@ class Site
 		return $this->render('login');
 	}
 
+		// TODO сделать исключение 404 уже в route()
+	public function actionNotFound()
+	{
+		return $this->render('404');
+	}
+
 	public function login()
 	{
 		return $this->user->loginUser($_POST["username"], $_POST["password"]);
@@ -119,13 +159,6 @@ class Site
 		return $this->user->logoutUser();
 	}
 
-	// TODO сделать исключение 404 уже в route()
-	public function actionNotFound()
-	{
-		return $this->render('404');
-	}
-
-	
 
 
 }

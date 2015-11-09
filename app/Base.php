@@ -49,4 +49,42 @@ class Base
 		$result = $sth->fetch();
 		return $result;
 	}
+
+	/**
+	 * Функция получает все данные из таблицы. ОСТОРОЖНО! Переменная $table без фильтрации
+	 * Использовать только внутри движка!
+	 * @param String $table Имя таблицы
+	 * @return Array $result Массив дааных из таблицы
+	 */
+	public function getAll($table)
+	{
+		$sth = $this->dbh->prepare("SELECT * FROM $table");
+		$sth->execute();
+		$result = $sth->fetchAll();
+		if (!empty($result)) {
+			return $result;
+		} else {
+			return FALSE;
+		}
+	}
+
+	/**
+	 * Функция получает все данные из таблицы для записи с $id. ОСТОРОЖНО! Переменная $table без фильтрации
+	 * Использовать только внутри движка!
+	 * @param int $id ид записи
+	 * @param String $table Имя таблицы
+	 * @return Array $result Массив дааных из таблицы
+	 */
+	public function getOne($id, $table)
+	{
+		$sth = $this->dbh->prepare("SELECT * FROM $table WHERE id=:id");
+		$sth->bindParam(':id', $id);
+		$sth->execute();
+		$result = $sth->fetch();
+		if (!empty($result)) {
+			return $result;
+		} else {
+			return FALSE;
+		}
+	}
 }

@@ -3,7 +3,6 @@
 	/**
    * This file is part of SimpleUsers.
    *
-
 	 */
 
 	/**

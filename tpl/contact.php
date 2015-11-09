@@ -1,8 +1,8 @@
 <?php
 
 $EmailFrom = $_REQUEST['email']; 
-$EmailTo = "@"; // Your email address here
-$Subject = "Contact form";
+$EmailTo = "freeflight.pro@gmail.com"; // Your email address here
+$Subject = "Contact form Qlibin";
 $Name = Trim(stripslashes($_POST['name'])); 
 $Email = Trim(stripslashes($_POST['email'])); 
 $Message = Trim(stripslashes($_POST['message'])); 

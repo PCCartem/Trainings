@@ -1,17 +1,28 @@
 {% extends "base.html.twig" %}
 
-{% block title %}О нас{% endblock %}
+{% block title %}Админ{% endblock %}
 	
 
 
 {% block content %}
+<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+<script>tinymce.init({
+	    selector: "textarea",
+	});</script>
 
+	<form method="post" action="/admin">
+   <button name="logout" value="logout">Выйти</button>
+	</form>
 
-	<div class="about-page main grid-wrap">
+<form method="post" action="show.php">
+   <p>     
+     <textarea name="text" cols="50" rows="15">
+
+     <div class="about-page main grid-wrap">
 
 		<header class="grid col-full">
 		<hr>
-			<p class="fleft">Наша команда</p>
+			<p class="fleft">About</p>
 		</header>
 
 		
@@ -60,5 +71,8 @@
 		
 	</div> <!--main-->
 
+     </textarea>
+     <input type="submit" value="Отправить" />
+   </p>
+</form>
 {% endblock %}
-

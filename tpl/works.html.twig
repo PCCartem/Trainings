@@ -9,17 +9,18 @@
 
 		<header class="grid col-full">
 			<hr>
-			<p class="fleft">Works</p>
+			<p class="fleft">Работы нашей команды</p>
 		</header>
 
 
 		<aside class="grid col-one-quarter mq2-col-full">
-			<p class="mbottom">Keep the same size ratio for thumbnails to avoid breaking the grid because of the margin-bottom.</p>
+			<p class="mbottom">Наше портфолио - предмет нашей гордости, именно они помогают понять кто мы, что мы умеем, и показывают наш профессианализм.</p>
 			<menu>
 				<a  id="work_all" class="arrow buttonactive">All</a><br>
-				<a  id="work_1" class="arrow">Web design</a><br>
-				<a  id="work_2" class="arrow">Web development</a><br>
-				<a  id="work_3" class="arrow">Graphic design</a>
+ 				{% for cat in catWorks %}
+ 			        <a  id="work_{{ cat.id }}" class="arrow">{{ cat.name }}</a><br>
+ 			    {% endfor %}
+
 			</menu>
 		</aside>
 		
@@ -27,127 +28,21 @@
 		
 					<div class="grid-wrap works">
 		
-			
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_1">
-					<a href="tpl/work1" >
-						<img src="img/img.jpg" alt="" >
+				
+				{% for work in works %}
+ 			        <figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_{{ work.id_category }}">
+					<a href="/work/{{work.id}}" >
+						<img src="/tpl/img/img.jpg" alt="" >
 					<span class="zoom"></span>
 					</a>
 					<figcaption>
-						<a href="tpl/work1" class="arrow">Project page!</a>
-						<p>Lorem ipsum dolor set amet</p>
+						<a href="/work/{{work.id}}" class="arrow">{{ work.name }}</a>
+						<p>{{ work.info }}</p>
 					</figcaption>
 				</figure>
+ 			    {% endfor %}
 
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_1">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-	
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_2">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_3">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_1">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_3">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_3">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_3">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_1">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_2">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
-
-				<figure class="grid col-one-third mq1-col-one-half mq2-col-one-third mq3-col-full work_1">
-					<a href="#" >
-					<img src="img/img.jpg" alt="" >
-					<span class="zoom"></span>
-					</a>
-					<figcaption>
-						<a href="#" class="arrow">Project x</a>
-						<p>Lorem ipsum dolor set amet</p>
-					</figcaption>
-				</figure>
+				
 		
 		
 			</div> <!-- grid inside 3/4-->

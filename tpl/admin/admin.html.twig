@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Админ{% endblock %}
+	
+
+
+{% block content %}
+	
+	<div class="main grid-wrap">
+		
+		<aside class="grid col-one-quarter mq2-col-full">
+			<form method="post" action="/admin">
+   		<button name="logout" value="logout">Выйти</button>
+	</form>
+			<menu>
+				<ul>
+					<li><a href="/admin/profile" class="arrow">Профиль</a></li>
+					<li><a href="/admin/posts" class="arrow">Посты</a></li>
+					<li><a href="/admin/works" class="arrow">Работы</a></li>
+				</ul>
+			</menu>
+		</aside>
+	
+
+
+	
+
+	
+<section class = "grid col-three-quarters mq2-col-full">
+{% block panel %}
+	<script src="//tinymce.cachefly.net/4.2/tinymce.min.js"></script>
+<script>tinymce.init({
+	    selector: "textarea",
+	});</script>
+	<form method="post" action="show.php">
+   <p>     
+     <textarea name="text" cols="50" rows="15"></textarea>
+     <input type="submit" value="Отправить" />
+   </p>
+</form>
+{% endblock panel %}
+</section>
+
+</div>
+{% endblock content %}
